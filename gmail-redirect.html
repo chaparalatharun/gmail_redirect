@@ -1,0 +1,28 @@
+<!-- public/gmail-redirect.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gmail Auth Redirect</title>
+    <script>
+      // Immediately redirect back to the Electron app with full URL
+      window.onload = () => {
+        const currentUrl = window.location.href;
+        fetch("http://localhost:38913/gmail-callback", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: currentUrl }),
+        })
+          .then(() => {
+            document.body.innerHTML = "<h2>✅ Auth complete. You may close this tab.</h2>";
+          })
+          .catch(() => {
+            document.body.innerHTML = "<h2>⚠️ Could not contact the app. Please return manually.</h2>";
+          });
+      };
+    </script>
+  </head>
+  <body>
+    <h2>⏳ Redirecting you back to Tabsy...</h2>
+  </body>
+</html>
